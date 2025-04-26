@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="../style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="interests.html">Hobbies & Interests</a></li>
+            <li><a href="../work/works.html">My Works</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="goals.html">Goals</a></li>
+        </ul>
+    </nav>
+
+    <div class="asset">
+        <h2>My Goals</h2>
+        <ul>
+            <li>• Learn more about web development.</li>
+            <li>• Continuously improve my coding skills.</li>
+            <li>• Build personal projects to improve skills.</li>
+            <li>
+                • Explore HTML, CSS, and JavaScript to create interactive
+                  websites.
+            </li>
+        </ul>
+    </div>
+
+    <div id="comments_section">
+        <div class="asset">
+            <h3>Teammates' Comments</h3>
+            <p data-date="2025-03-19T10:20:00">
+                Keep up the good work. Your earnest efforts will bear fruit -
+                Kevin Barcelos
+            </p>
+            <p data-date="2025-03-19T10:30:00">
+                Consistent learning is key. Keep pushing yourself! -
+                Ashley Hermione Gomez
+            </p>
+            <p data-date="2025-03-19T10:40:00">
+                Keep pushing yourself to experiment with new technologies,
+                and don't forget to celebrate small wins along the way! -
+                Angelica Joy Uy
+            </p>
+        </div>
+        
+        <div id="buttons_container">
+            <button id="sort_by_date_ascending">Sort Ascending</button>
+            <button id="sort_by_date_descending">Sort Descending</button>
+        </div>
+    </div>
+     
+    <div class="comment-container">
+        <h2>Comment Form</h2>
+        <form id="comment_form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"
+                   placeholder="Enter your name" required>
+            
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="5"
+                      placeholder="Enter your comment" required></textarea>
+            
+            <button type="submit" id="comment_button"
+                    disabled> Post Comment</button>
+        </form>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+
+</html>

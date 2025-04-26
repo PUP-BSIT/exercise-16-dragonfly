@@ -1,0 +1,282 @@
+body {
+    background-image: url("assets/R\ \(1\).jpg");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.box {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    margin: 15px auto;
+    gap: 10px;
+    border-radius: 8px;
+    justify-content: center;
+    display: block;
+}
+
+.header {
+    grid-area: header;
+}
+
+.header h1 {
+    text-align: center;
+    font-size: 1.5em;
+    color: #000000;
+}
+
+h2 {
+    font-family: "Arial Narrow Bold", sans-serif;
+}
+
+.interest-hobbies {
+    grid-area: interest-hobbies;
+}
+
+.my-works {
+    grid-area: my-works;
+}
+
+.goals {
+    grid-area: goals;
+}
+
+.goals .comment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.comment-section input,
+textarea {
+    width: 80%;
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #848484;
+    outline: none;
+}
+
+.comment-section button {
+    display: block;
+    height: 50px;
+    width: fit-content;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.testimonials {
+    grid-area: testimonials;
+}
+
+.gallery .vertical-image img {
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 5px;
+    height: 300px;
+    width: 200px;
+}
+
+.gallery .horizontal-image img {
+    padding: 5px;
+    height: 140px;
+    width: 200px;
+}
+
+.gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: gallery;
+}
+
+.contact-form-container {
+    grid-area: contact-form;
+}
+
+.contact-form-container .box {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 20px;
+}
+
+hr {
+    border: none;
+    width: 120px;
+    height: 5px;
+    background-color: #000000;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.contact-input {
+    width: 80%;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 20px;
+    font-weight: 500;
+    border-radius: 25px;
+    background-color: #7a7a7a;
+    margin: 5px;
+}
+
+.contact-form-container textarea {
+    padding-top: 20px;
+    height: 150px;
+    border-radius: 25px;
+    background-color: #7a7a7a;
+}
+
+.contact-input:focus {
+    border: 2px solid #ff994f;
+}
+
+.contact-input:hover {
+    transform: scale(1.05);
+}
+
+.contact-input::placeholder {
+    color: #a9a9a9;
+}
+
+.contact-form-container button {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    font-size: 16px;
+    color: white;
+    gap: 10px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(270deg, #ff994f, #fa6d86);
+    cursor: pointer;
+}
+
+.contact-form-container button:hover {
+    background: linear-gradient(270deg, #fa6d86, #ff994f);
+    transform: scale(1.05);
+}
+
+.contact-form-container button img {
+    height: 15px;
+}
+
+@media (max-width: 426px) {
+    body {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 4fr 1fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-areas:
+            ". header ."
+            ". interest-hobbies ."
+            ". my-works ."
+            ". goals ."
+            ". testimonials ."
+            ". gallery ."
+            ". contact-form .";
+    }
+
+    .gallery .box {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gallery .vertical-image img,
+    .gallery .horizontal-image img {
+        display: grid;
+        place-items: center;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+    body {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 0.5fr 1fr 0.5fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-areas:
+            ". header ."
+            ". interest-hobbies ."
+            ". my-works ."
+            ". goals ."
+            ". testimonials ."
+            ". gallery ."
+            ". contact-form .";
+    }
+
+    .gallery .box {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gallery .vertical-image img,
+    .gallery .horizontal-image img {
+        display: flex;
+        flex-direction: row;
+        place-items: center;
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    body {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 2fr 2fr 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            ". header header ."
+            ". interest-hobbies my-works ."
+            ". testimonials testimonials ."
+            ". goals goals ."
+            ". gallery gallery ."
+            ". contact-form contact-form .";
+    }
+
+    .interest-hobbies .box,
+    .my-works .box {
+        min-height: 200px;
+    }
+
+    .goals .box,
+    .testimonials .box {
+        min-height: 200px;
+        height: fit-content;
+    }
+}
+
+@media (min-width: 1025px) {
+    body {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 2fr 2fr 2fr 2fr 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            ". header header header header ."
+            ". interest-hobbies interest-hobbies my-works my-works ."
+            ". testimonials testimonials testimonials testimonials ."
+            ". goals goals goals goals ."
+            ". gallery gallery gallery gallery."
+            ". contact-form contact-form contact-form contact-form .";
+    }
+
+    .interest-hobbies .box,
+    .my-works .box,
+    .goals .box,
+    .testimonials .box {
+        margin-bottom: 10px;
+        height: fit-content;
+    }
+}

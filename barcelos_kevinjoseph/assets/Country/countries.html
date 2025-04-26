@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="countries.css">
+    <title>Countries of the World</title>
+</head>
+<body>
+    <div class=box>
+        <h1>Countries of the World</h1>
+    
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="country_search" 
+                placeholder="Enter country name..." />
+            <button id="search_btn">Search</button>
+        </div>
+
+        <div id="error_message" class="error-message hide"></div>
+        <div id="loading" class="loading hide">Loading...</div>
+        
+        <div id="country_details" class="country-details hide">
+            <div class="country-header">
+                <img id="flag" class="flag" src="" alt="Country flag">
+                <div>
+                    <h2 id="country_name" class="country-name"></h2>
+                    <p id="official_name"></p>
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Capital:</span>
+                <span id="capital"></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Region:</span>
+                <span id="region"></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Population:</span>
+                <span id="population"></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Languages:</span>
+                <span id="languages"></span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Area:</span>
+                <span id="area"></span>
+            </div>
+        </div>
+        
+        <div id="region_countries" class="region-countries hide">
+            <h3 id="region_title" class="region-title">
+                Other countries in region</h3>
+            <div id="region_grid" class="region-grid"></div>
+        </div>
+    </div>
+    
+    <script src="countries.js"></script>
+</body>
+</html>
