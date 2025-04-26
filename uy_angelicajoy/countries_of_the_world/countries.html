@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Countries of the World</title>
+        <meta
+            name="viewport"
+            content="width=device-width, 
+            initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <h1>Countries of the World</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="search-container">
+                <h2 class="search-title">Explore Countries</h2>
+                <div class="search-form">
+                    <input
+                        type="text"
+                        id="search_input"
+                        placeholder="Enter a country name..." />
+                    <button id="search_button">
+                        <i class="fas fa-search"></i>
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div id="loading">
+                <i class="fas fa-spinner"></i>
+                Searching for country...
+            </div>
+            <div id="error"></div>
+            <div id="initial_message">
+                <i class="fas fa-map-marked-alt"></i>
+                Enter a country name in the search box above to get started!
+            </div>
+            <div id="country_details">
+                <div class="country-header">
+                    <div class="header-content-wrapper">
+                        <div class="flag-container">
+                            <img id="country_flag" src="" alt="Country flag" />
+                        </div>
+                        <div class="country-name">
+                            <h2 id="country_common_name"></h2>
+                            <p id="country_official_name"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="country-info">
+                    <div class="info-item">
+                        <h3><i class="fas fa-city"></i> Capital</h3>
+                        <p id="country_capital"></p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-map-marker-alt"></i> Region</h3>
+                        <p id="country_region"></p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-users"></i> Population</h3>
+                        <p id="country_population"></p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-language"></i> Languages</h3>
+                        <p id="country_languages"></p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-coins"></i> Currencies</h3>
+                        <p id="country_currencies"></p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-ruler-combined"></i> Area</h3>
+                        <p id="country_area"></p>
+                    </div>
+                </div>
+            </div>
+            <div id="region_countries">
+                <h2 id="region_title">Other Countries in Region</h2>
+                <div class="countries-grid" id="countries_grid"></div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="home-button">
+                <a href="../index.html">
+                    <i class="fas fa-home"></i>
+                    Back to Homepage
+                </a>
+            </div>
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>

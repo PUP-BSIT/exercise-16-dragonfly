@@ -1,0 +1,74 @@
+body {
+  font-family: "Arial", sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  background-image: url("assets_homepage/Dragonfly.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #2980b9;
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  display: block;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: background-color 0.3s ease;
+}
+
+a:hover {
+  background-color: #ecf0f1;
+  border-radius: 5px;
+}
+
+.box {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  margin: 15px auto;
+  max-width: 600px;
+  min-height: 100%;
+  border-radius: 8px;
+}
+
+@media (max-width: 425px) {
+  h1 {
+    font-size: 3em;
+  }
+
+  h3 {
+    font-size: 1.5em;
+  }
+
+  li {
+    font-size: 1em;
+  }
+}

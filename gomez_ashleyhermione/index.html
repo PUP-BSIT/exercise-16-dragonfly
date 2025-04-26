@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gomez, Ashley Hermione</title>
+        <link rel="stylesheet" href="styles.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div class="header">
+            <h1>Gomez, Ashley Hermione</h1>
+        </div>
+
+        <div class="content">
+            <div class="box">
+                <h2>Interests and Hobbies</h2>
+                <ul>
+                    <li>Digital Drawing</li>
+                    <li>Traditional Drawing</li>
+                    <li>Reading</li>
+                    <li>Coding</li>
+                    <li>Playing FPS games</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2>My Works</h2>
+                <ol>
+                    <li><a href="assets/sample1.html">Sample 1</a></li>
+                    <li><a href="assets/sample2.html">Sample 2</a></li>
+                    <li><a href="assets/sample3.html">Sample 3</a></li>
+                    <li><a href="assets/sample4.html">Sample 4</a></li>
+                    <li><a href="assets/sample5.html">Sample 5</a></li>
+                    <li><a href="assets/country-assets/countries.html">
+                        Countries of the World
+                        </a>        
+                    </li>
+                </ol>
+            </div>
+
+            <div class="box">
+                <h2>Testimonials</h2>
+                <p>“Intuitive design and powerful features.” - Angelica Joy Uy
+                </p>
+                <p>
+                    “Ashley is an amazing coder and teammate!” - Kevin Barcelos
+                </p>
+                <p>
+                    “I appreciate the website's design. Nice one!” - Gener
+                    Andaya Jr.
+                </p>
+            </div>
+
+            <div class="box">
+                <h2>Gallery</h2>
+                <img src="assets/image/draw1.jpg" alt="Digital Drawing 1" />
+                <img src="assets/image/draw2.jpg" alt="Digital Drawing 2" />
+                <img src="assets/image/draw3.jpg" alt="Digital Drawing 3" />
+                <img src="assets/image/draw4.jpg" alt="Digital Drawing 4" />
+                <img src="assets/image/draw5.jpg" alt="Digital Drawing 5" />
+            </div>
+
+            <div class="container">
+                <h1>Contact Us!</h1>
+                <form action="/submit" method="POST">
+                    <label for="first_name">First Name:</label>
+                    <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        placeholder="First Name"
+                        required />
+
+                    <label for="last_name">Last Name:</label>
+                    <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        placeholder="Last Name"
+                        required />
+
+                    <label for="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="youremail@gmail.com"
+                        required />
+
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required />
+
+                    <label for="message">Message:</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        placeholder="Your questions..."
+                        required></textarea>
+
+                    <div class="button-group">
+                        <button type="submit">Submit</button>
+                        <button type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="comment-box">
+                <h2>My Goals</h2>
+                <ul>
+                    <li>Improve my coding skills</li>
+                    <li>Work on more creative projects</li>
+                    <li>Enhance UI/UX design skills</li>
+                </ul>
+
+                <h2>Comments</h2>
+                <div id="comments_section"></div>
+
+                <h3>Leave a comment</h3>
+                <form id="comment_form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required />
+
+                    <label for="comment">Comment:</label>
+                    <textarea id="comment" required></textarea>
+
+                    <button id="submit_comment" disabled>Comment</button>
+                </form>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

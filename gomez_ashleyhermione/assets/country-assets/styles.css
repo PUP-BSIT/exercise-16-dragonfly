@@ -1,0 +1,142 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background: url("../image/img1.jpg") no-repeat center/cover fixed;
+    color: #5a5a5a;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.header h1 {
+    background-color: #ffedf5;
+    border: 3px solid plum;
+    border-radius: 20px;
+    color: #ff6699;
+    padding: 40px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #ff6699;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.box,
+.container {
+    background-color: #ffedf5;
+    border: 3px solid #ffccdd;
+    border-radius: 15px;
+    padding: 20px;
+    width: 90%;
+    margin: 20px auto;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.box {
+    max-width: 37.5rem;
+}
+
+.container {
+    max-width: 25rem;
+}
+
+ul,
+ol {
+    text-align: left;
+    display: block;
+    margin: 0 auto;
+    max-width: 31.25rem;
+}
+
+.gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+img {
+    width: 5rem;
+    height: auto;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+a {
+    color: #e72b6a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+button {
+    background-color: #ff99cc;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 45%;
+}
+
+button[type="reset"] {
+    background-color: #ffb3d9;
+}
+
+button:hover {
+    background-color: #ff66a3;
+}
+
+.flag {
+    width: 150px;
+    margin-top: 10px;
+}
+
+.region-country {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    padding: 0.5rem 0;
+}
+
+@media (max-width: 320px) {
+    .box,
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 425px) {
+    .box,
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .box,
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}

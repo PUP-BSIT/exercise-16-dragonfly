@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Barcelos, Kevin Joseph Page</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+
+    <body>
+        <div class="header">
+            <div class="box">
+                <h1>Barcelos, Kevin Joseph</h1>
+            </div>
+        </div>
+
+        <div class="interest-hobbies">
+            <div class="box">
+                <h2>My Interest and Hobbies</h2>
+                <ul>
+                    <li>Reading</li>
+                    <li>Listening to podcast</li>
+                    <li>Gaming</li>
+                    <li>Watching K-Drama</li>
+                    <li>Eating good foods</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="goals">
+            <div class="box">
+                <h2>My Goals</h2>
+                <ul>
+                    <li>Learn more about web development</li>
+                    <li>Travel around the world</li>
+                    <li>Learn how to cook</li>
+                    <li>Learn how to play guitar</li>
+                    <li>Learn how to speak Korean</li>
+                </ul>
+
+                <div class="comment-section">
+                    <h3>Comments</h3>
+                    <button type="button" id="sort_button" class="sort-btn">
+                        Sort by Date ↑
+                    </button>
+                    <div class="member-comments">
+                    </div>
+
+                    <div class="add-comment">
+                        <h4>Add a comment</h4>
+                        <input
+                            type="text"
+                            name="comment"
+                            id="name_input"
+                            placeholder="Your Name"
+                            required />
+                        <textarea
+                            name="comment"
+                            id="message_input"
+                            cols="30"
+                            rows="3"
+                            placeholder="Write your comment here..."
+                            required></textarea>
+                        <button
+                                type="submit"
+                                name="comment"
+                                id="comment_button">
+                            Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-works">
+            <div class="box">
+                <h2>My works</h2>
+                <ol>
+                    <li><a href="assets/Country/countries.html">
+                            Countries of the World</a></li>
+                    <li><a href="assets/page1.html">My website</a></li>
+                    <li><a href="assets/page2.html">My Cat</a></li>
+                    <li><a href="assets/page3.html">My Foods</a></li>
+                    <li>
+                        <a href="assets/page4.html">Places I've been to</a>
+                    </li>
+                    <li><a href="assets/page5.html">My goals in life</a></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="testimonials">
+            <div class="box">
+                <h2>Testimonials</h2>
+                <h4>Angelica Joy Uy</h4>
+                <ul>
+                    <li>
+                        <p>Intuitive design and powerful features.</p>
+                    </li>
+                </ul>
+
+                <h4>Ashley Hermione Gomez</h4>
+                <ul>
+                    <li>
+                        <p>The website has a clean and simple design.</p>
+                    </li>
+                </ul>
+
+                <h4>Gener Andaya Jr.</h4>
+                <ul>
+                    <li>
+                        <p>I appreciate the website's design. Nice one!</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <div class="box">
+                <h2>Gallery</h2>
+                <div class="horizontal-image">
+                    <img src="./assets/fam_pic1.jpg" />
+                    <img src="./assets/fam_pic4.jpg" />
+                    <img src="./assets/fam_pic5.jpg" />
+                </div>
+                <div class="vertical-image">
+                    <img src="./assets/fam_pic3.jpg" />
+                    <img src="./assets/fam_pic2.jpg" />
+                    <img src="./assets/fam_pic6.jpg" />
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-container">
+            <div class="box">
+                <div class="contact-title">
+                    <h2>Get in touch with me.</h2>
+                    <hr />
+                </div>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    class="contact-input"
+                    required />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email"
+                    class="contact-input"
+                    required />
+                <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    class="contact-input"
+                    required></textarea>
+
+                <button type="submit">
+                    Submit <img src="assets/arrow_icon.png" />
+                </button>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
