@@ -38,7 +38,6 @@ function fetchMovies() {
     .then(movies => {
         const moviesList = document.getElementById("movies_list");
         moviesList.innerHTML = "";
-        console.log(movies); // Log the movies data for debugging
         movies.forEach(movie => {
             const row = document.createElement("tr");
             row.innerHTML = `
