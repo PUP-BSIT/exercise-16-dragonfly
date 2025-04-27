@@ -8,14 +8,14 @@ A collaborative web development project showcasing individual and group web page
 
 ## 🌐Group Webpage
 
-📌[Main Dragonfly Webpage]()
+📌[Main Dragonfly Webpage](https://pupt-dragonfly-exe16.netlify.app)
 
 ## 👨🏻‍💻👩🏻‍💻Team Members and Project links
 
-[Andaya, Gener Webpage]()\
-[Barcelos, Kevin Joseph Webpage]()\
-[Gomez, Ashley Hermione Webpage]()\
-[Uy, Angelica Joy Webpage]()
+[Andaya, Gener Webpage](https://pupt-dragonfly-exe16.netlify.app/andaya_gener//)\
+[Barcelos, Kevin Joseph Webpage](https://pupt-dragonfly-exe16.netlify.app/barcelos_kevinjoseph/)\
+[Gomez, Ashley Hermione Webpage](https://pupt-dragonfly-exe16.netlify.app/gomez_ashleyhermione/)\
+[Uy, Angelica Joy Webpage](https://pupt-dragonfly-exe16.netlify.app/uy_angelicajoy/)
 
 ## Technologies Used
 
