@@ -24,6 +24,28 @@ body {
     line-height: 1.6;
 }
 
+/* Add these to your existing styles.css */
+#initial_message,
+#loading,
+#error,
+#country_details,
+#region_countries {
+    display: none;
+}
+
+#initial_message.active,
+#loading.active,
+#error.active,
+#country_details.active,
+#region_countries.active {
+    display: block;
+}
+
+/* For the countries grid specifically */
+.countries-grid.active {
+    display: grid;
+}
+
 /* Header */
 .header {
     background: linear-gradient(135deg, var(--primary), var(--secondary));

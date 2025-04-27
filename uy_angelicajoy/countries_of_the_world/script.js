@@ -1,23 +1,29 @@
-let searchInput = document.getElementById("search_input");
-let searchButton = document.getElementById("search_button");
-let loadingElement = document.getElementById("loading");
-let errorElement = document.getElementById("error");
-let countryDetails = document.getElementById("country_details");
-let regionCountries = document.getElementById("region_countries");
-let initialMessage = document.getElementById("initial_message");
+const searchInput = document.getElementById("search_input");
+const searchButton = document.getElementById("search_button");
+const loadingElement = document.getElementById("loading");
+const errorElement = document.getElementById("error");
+const countryDetails = document.getElementById("country_details");
+const regionCountries = document.getElementById("region_countries");
+const initialMessage = document.getElementById("initial_message");
 
-let countryFlag = document.getElementById("country_flag");
-let countryCommonName = document.getElementById("country_common_name");
-let countryOfficialName = document.getElementById("country_official_name");
-let countryCapital = document.getElementById("country_capital");
-let countryRegion = document.getElementById("country_region");
-let countryPopulation = document.getElementById("country_population");
-let countryLanguages = document.getElementById("country_languages");
-let countryCurrencies = document.getElementById("country_currencies");
-let countryArea = document.getElementById("country_area");
+const countryFlag = document.getElementById("country_flag");
+const countryCommonName = document.getElementById("country_common_name");
+const countryOfficialName = document.getElementById("country_official_name");
+const countryCapital = document.getElementById("country_capital");
+const countryRegion = document.getElementById("country_region");
+const countryPopulation = document.getElementById("country_population");
+const countryLanguages = document.getElementById("country_languages");
+const countryCurrencies = document.getElementById("country_currencies");
+const countryArea = document.getElementById("country_area");
 
-let regionTitle = document.getElementById("region_title");
-let countriesGrid = document.getElementById("countries_grid");
+const regionTitle = document.getElementById("region_title");
+const countriesGrid = document.getElementById("countries_grid");
+
+// Set initial state
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loaded");
+    initialMessage.classList.add("active");
+});
 
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -33,6 +39,32 @@ function formatCurrencies(currencies) {
     return Object.values(currencies)
         .map((currency) => `${currency.name} (${currency.symbol || ""})`)
         .join(", ");
+}
+
+function setUIState(state) {
+    // Reset all states first
+    initialMessage.classList.remove("active");
+    loadingElement.classList.remove("active");
+    errorElement.classList.remove("active");
+    countryDetails.classList.remove("active");
+    regionCountries.classList.remove("active");
+
+    // Set the current state
+    switch (state) {
+        case "initial":
+            initialMessage.classList.add("active");
+            break;
+        case "loading":
+            loadingElement.classList.add("active");
+            break;
+        case "error":
+            errorElement.classList.add("active");
+            break;
+        case "results":
+            countryDetails.classList.add("active");
+            regionCountries.classList.add("active");
+            break;
+    }
 }
 
 // Display country details
@@ -53,8 +85,6 @@ function displayCountryDetails(country) {
     countryArea.textContent = country.area
         ? `${formatNumber(country.area)} km²`
         : "N/A";
-
-    countryDetails.style.display = "block";
 }
 
 // Display countries from the same region
@@ -64,19 +94,19 @@ function displayRegionCountries(regionData, currentCountryCode, regionName) {
     regionTitle.textContent = `Other Countries in ${regionName}`;
 
     // Filter out current country and limit to 5 countries
-    let otherCountries = regionData
+    const otherCountries = regionData
         .filter((country) => country.cca3 !== currentCountryCode)
         .slice(0, 5);
 
     otherCountries.forEach((country) => {
-        let countryCard = document.createElement("div");
+        const countryCard = document.createElement("div");
         countryCard.className = "country-card";
         countryCard.innerHTML = `
-                    <img src="${
-                        country.flags.svg || country.flags.png
-                    }" alt="Flag of ${country.name.common}">
-                    <h3>${country.name.common}</h3>
-                `;
+            <img src="${country.flags.svg || country.flags.png}" alt="Flag of ${
+            country.name.common
+        }">
+            <h3>${country.name.common}</h3>
+        `;
 
         countryCard.addEventListener("click", () => {
             searchInput.value = country.name.common;
@@ -85,17 +115,11 @@ function displayRegionCountries(regionData, currentCountryCode, regionName) {
 
         countriesGrid.appendChild(countryCard);
     });
-
-    regionCountries.style.display = "block";
 }
 
 // Search for a country
 function searchCountry(countryName) {
-    initialMessage.style.display = "none";
-    loadingElement.style.display = "block";
-    errorElement.style.display = "none";
-    countryDetails.style.display = "none";
-    regionCountries.style.display = "none";
+    setUIState("loading");
 
     // First API request: Search for the country
     fetch(`https://restcountries.com/v3.1/name/${countryName}`)
@@ -108,13 +132,13 @@ function searchCountry(countryName) {
             return response.json();
         })
         .then((countryData) => {
-            let country = countryData[0];
+            const country = countryData[0];
 
             // Display country details
             displayCountryDetails(country);
 
             // Extract region for second API request
-            let region = country.region;
+            const region = country.region;
 
             // Second API request: Get countries from the same region
             return fetch(`https://restcountries.com/v3.1/region/${region}`)
@@ -126,30 +150,26 @@ function searchCountry(countryName) {
                 })
                 .then((regionData) => {
                     displayRegionCountries(regionData, country.cca3, region);
+                    setUIState("results");
                 });
         })
         .catch((error) => {
             errorElement.textContent = error.message;
-            errorElement.style.display = "block";
-            initialMessage.style.display = "block";
-        })
-        .finally(() => {
-            loadingElement.style.display = "none";
+            setUIState("error");
         });
 }
 
 searchButton.addEventListener("click", () => {
-    let query = searchInput.value.trim();
+    const query = searchInput.value.trim();
     if (query) {
         searchCountry(query);
     }
 });
 
 searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        let query = searchInput.value.trim();
-        if (query) {
-            searchCountry(query);
-        }
-    }
+    if (e.key !== "Enter") return;
+    const query = searchInput.value.trim();
+
+    if (!query) return;
+    searchCountry(query);
 });
