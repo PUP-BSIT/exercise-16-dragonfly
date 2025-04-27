@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>K-Drama Catalog</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <header>
+            <h1>K-Drama Series Catalog</h1>
+            <p>Discover, track, and manage your favorite Korean dramas</p>
+        </header>
+
+        <div class="container">
+            <div class="sidebar">
+                <h2>Filter Dramas</h2>
+                <div class="form-group">
+                    <label for="filter_genre">Genre:</label>
+                    <select id="filter_genre">
+                        <option value="">All Genres</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Historical">Historical</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Fantasy">Fantasy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter-rating">Minimum Rating:</label>
+                    <input
+                        type="number"
+                        id="filter_rating"
+                        min="1"
+                        max="10"
+                        step="0.1"
+                        placeholder="1" />
+                </div>
+                <button onclick="fetchDramas()">
+                    <i class="fas fa-filter"></i> Apply Filters
+                </button>
+
+                <div class="add-drama-section">
+                    <h2>Add New Drama</h2>
+                    <form
+                        id="drama_form"
+                        onsubmit="event.preventDefault(); addDrama()">
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year Released:</label>
+                            <input
+                                type="number"
+                                id="year"
+                                min="2000"
+                                max="2025"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="episodes">Episode Count:</label>
+                            <input
+                                type="number"
+                                id="episodes"
+                                min="1"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="cast"
+                                >Main Cast (comma separated):</label
+                            >
+                            <input
+                                type="text"
+                                id="cast"
+                                placeholder="e.g., Ji Sung, Hwang Jung-eum"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Genre:</label>
+                            <select id="genre" required>
+                                <option value="Romance">Romance</option>
+                                <option value="Thriller">Thriller</option>
+                                <option value="Historical">Historical</option>
+                                <option value="Comedy">Comedy</option>
+                                <option value="Fantasy">Fantasy</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating (1-10):</label>
+                            <input
+                                type="number"
+                                id="rating"
+                                min="1"
+                                max="10"
+                                step="0.1"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Series Status:</label>
+                            <select id="status" required>
+                                <option value="1">Completed</option>
+                                <option value="0">Ongoing</option>
+                            </select>
+                        </div>
+                        <button type="submit">
+                            <i class="fas fa-plus-circle"></i> Add Drama
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div id="error_message" class="message"></div>
+
+                <div class="sort-controls">
+                    <div class="sort-by">
+                        <label for="sort_field">Sort by:</label>
+                        <select id="sort_field" onchange="sortDramas()">
+                            <option value="title">Title</option>
+                            <option value="year_released">Year</option>
+                            <option value="rating" selected>Rating</option>
+                            <option value="episode_count">Episodes</option>
+                            <option value="genre">Genre</option>
+                        </select>
+                    </div>
+                    <div class="sort-direction">
+                        <button id="sort_asc" onclick="setSortDirection('asc')">
+                            <i class="fas fa-sort-amount-up-alt"></i> Ascending
+                        </button>
+                        <button
+                            id="sort_desc"
+                            class="active"
+                            onclick="setSortDirection('desc')">
+                            <i class="fas fa-sort-amount-down"></i> Descending
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loading" class="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div id="drama_list" class="drama-list"></div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
