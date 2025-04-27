@@ -1,489 +1,350 @@
-const API_URL = "https://darkgray-goshawk-731405.hostingersite.com"
-                + "/crud-api/kdrama_api.php";
-let allDramas = [];
-let sortField = "rating";
-let sortDirection = "desc";
+const apiUrl =
+    "https://darkgray-goshawk-731405.hostingersite.com/crud-api/kdramas_api.php";
 
-// Helper function to safely parse JSON
-function safeJsonParse(str) {
-    try {
-        if (Array.isArray(str)) return str;
-        if (typeof str === "string") {
-            const parsed = JSON.parse(str);
-            return Array.isArray(parsed) ? parsed : [str];
-        }
-        return [];
-    } catch (e) {
-        console.error("Error parsing JSON:", e);
-        return typeof str === "string"
-            ? str.split(",").map((s) => s.trim())
-            : [];
-    }
-}
+function submitKdrama() {
+    const form = document.getElementById("kdrama_form");
+    const title = document.querySelector("#title").value.trim();
+    const main_lead = document.querySelector("#main_lead").value.trim();
+    const release_year = document.querySelector("#release_year").value.trim();
+    const episodes = document.querySelector("#episodes").value.trim();
+    const genre = document.querySelector("#genre").value.trim();
+    const network = document.querySelector("#network").value.trim();
+    const rating = document.querySelector("#rating").value.trim();
+    const completed = document.querySelector("#completed").value.trim();
 
-// Display message
-function showMessage(type, message) {
-    const messageDiv = document.getElementById("error_message");
-    messageDiv.textContent = message;
-    messageDiv.className = "message active " + type;
-    setTimeout(
-        () => {
-            messageDiv.className = "message";
-        },
-        type === "error" ? 5000 : 3000
-    );
-}
-
-// Show error message
-function showError(message) {
-    showMessage("error", message);
-}
-
-// Show success message
-function showSuccess(message) {
-    showMessage("success", message);
-}
-
-// Load dramas on page load
-document.addEventListener("DOMContentLoaded", fetchDramas);
-
-// Set sort direction
-function setSortDirection(direction) {
-    sortDirection = direction;
-    document
-        .getElementById("sort_asc")
-        .classList.toggle("active", direction === "asc");
-    document
-        .getElementById("sort_desc")
-        .classList.toggle("active", direction === "desc");
-    renderDramas();
-}
-
-// Sort dramas by the selected field
-function sortDramas() {
-    sortField = document.getElementById("sort_field").value;
-    renderDramas();
-}
-
-// Fetch dramas from API
-async function fetchDramas() {
-    const genre = document.getElementById("filter_genre").value;
-    const minRating = document.getElementById("filter_rating").value;
-
-    let url = API_URL;
-    const params = [];
-
-    if (genre) params.push(`genre=${encodeURIComponent(genre)}`);
-    if (minRating) params.push(`minRating=${encodeURIComponent(minRating)}`);
-
-    if (params.length > 0) {
-        url += "?" + params.join("&");
-    }
-
-    // Clear drama list before fetching
-    document.getElementById("drama_list").innerHTML = "";
-
-    // Show a simple text indicator instead of loading spinner
-    const loadingText = document.createElement("p");
-    loadingText.className = "loading-text";
-    loadingText.textContent = "Loading dramas...";
-    document.getElementById("drama_list").appendChild(loadingText);
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok)
-            throw new Error(`HTTP error! status: ${response.status}`);
-        allDramas = await response.json();
-        renderDramas();
-    } catch (error) {
-        console.error("Error fetching dramas:", error);
-        showError("Error fetching dramas. Please try again.");
-        // Show error state in drama list
-        document.getElementById("drama_list").innerHTML = `
-            <div class="error-state">
-                <p>Failed to load dramas. Please try again.</p>
-                <button onclick="fetchDramas()">Retry</button>
-            </div>
-        `;
-    }
-}
-
-// Render dramas with current sort and filter
-function renderDramas() {
-    const dramaList = document.getElementById("drama_list");
-    dramaList.innerHTML = "";
-
-    if (allDramas.length === 0) {
-        dramaList.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-film"></i>
-                <p>No dramas found matching your criteria.</p>
-                <button onclick="resetFilters()">
-                    <i class="fas fa-undo"></i> 
-                        Reset Filters
-                </button>
-            </div>
-        `;
+    if (
+        !title ||
+        !main_lead ||
+        !release_year ||
+        !episodes ||
+        !genre ||
+        !network ||
+        !rating ||
+        !completed
+    ) {
+        alert("Please fill out all fields!");
         return;
     }
 
-    const sortedDramas = [...allDramas].sort((a, b) => {
-        let aValue = a[sortField];
-        let bValue = b[sortField];
+    // Print the exact URL being used for debugging
+    console.log("Submitting to: " + apiUrl + "?action=create");
 
-        if (sortField === "title") {
-            aValue = aValue.toLowerCase();
-            bValue = bValue.toLowerCase();
-        } else if (typeof aValue !== "number") {
-            aValue = String(aValue).toLowerCase();
-            bValue = String(bValue).toLowerCase();
-        }
+    fetch(apiUrl + "?action=create", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body:
+            `title=${encodeURIComponent(title)}` +
+            `&main_lead=${encodeURIComponent(main_lead)}` +
+            `&release_year=${encodeURIComponent(release_year)}` +
+            `&episodes=${encodeURIComponent(episodes)}` +
+            `&genre=${encodeURIComponent(genre)}` +
+            `&network=${encodeURIComponent(network)}` +
+            `&rating=${encodeURIComponent(rating)}` +
+            `&completed=${encodeURIComponent(completed)}`,
+    })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then((text) => {
+                    throw new Error(
+                        `Server responded with ${response.status}: ${text}`
+                    );
+                });
+            }
+            return response.text();
+        })
+        .then((responseText) => {
+            alert(responseText);
+            form.reset(); // Reset form after successful submit
+            fetchKdramas();
+        })
+        .catch((error) => {
+            console.error("Submission Error:", error);
+            alert("Error adding K-drama: " + error.message);
+        });
+}
 
-        return sortDirection === "asc"
-            ? aValue > bValue
-                ? 1
-                : -1
-            : aValue < bValue
-            ? 1
-            : -1;
-    });
+function fetchKdramas() {
+    console.log("Fetching from: " + apiUrl + "?action=read");
 
-    sortedDramas.forEach((drama) => {
-        const castMembers = safeJsonParse(drama.main_cast);
-        const rating = parseFloat(drama.rating);
-        const formattedRating = !isNaN(rating) ? rating.toFixed(1) : "N/A";
-        const isCompleted = drama.is_completed === "complete";
+    fetch(apiUrl + "?action=read")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((kdramas) => {
+            displayKdramas(kdramas);
+        })
+        .catch((error) => {
+            console.error("Error fetching K-dramas:", error);
+            document.getElementById("kdramas_list").innerHTML =
+                "<tr><td colspan='10'>Error loading K-dramas. Please try again later.</td></tr>";
+        });
+}
 
-        const dramaCard = document.createElement("div");
-        dramaCard.className = "drama-card";
-        dramaCard.innerHTML = `
-            <div class="rating">
-                <i class="fas fa-star"></i> ${formattedRating}
-            </div>
-            <h3>${drama.title} (${drama.year_released})</h3>
-            <div class="drama-info">
-                <div class="drama-meta">
-                    <span><i class="fas fa-film"></i> ${drama.genre}</span>
-                    <span><i class="fas fa-tv"></i> 
-                    ${drama.episode_count} eps</span>
-                </div>
-                <div class="cast-list">
-                    <strong><i class="fas fa-users"></i> Cast:</strong> 
-                    ${castMembers.join(", ")}
-                </div>
-                <span class="status ${isCompleted ? "completed" : "ongoing"}">
-                    ${
-                        isCompleted
-                            ? '<i class="fas fa-check-circle"></i> Completed'
-                            : '<i class="fas fa-spinner"></i> Ongoing'
-                    }
-                </span>
-            </div>
-            <div class="card-actions">
-                <button class="edit" onclick="editDrama('${drama.id}')">
-                    <i class="fas fa-edit"></i> Edit
+function displayKdramas(kdramas) {
+    const kdramasList = document.getElementById("kdramas_list");
+    kdramasList.innerHTML = "";
+
+    if (kdramas.length === 0) {
+        kdramasList.innerHTML =
+            "<tr><td colspan='10'>No K-dramas found. Add some!</td></tr>";
+        return;
+    }
+
+    kdramas.forEach((kdrama) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${kdrama.title || ""}</td>
+            <td>${kdrama.main_lead || ""}</td>
+            <td>${kdrama.release_year || ""}</td>
+            <td>${kdrama.episodes || ""}</td>
+            <td>${kdrama.genre || ""}</td>
+            <td>${kdrama.network || ""}</td>
+            <td>${kdrama.rating || ""}</td>
+            <td>${kdrama.completed || ""}</td>
+            <td>
+                <button class="edit-btn" onclick="editRow(this)">
+                    Edit
                 </button>
-                <button class="delete" onclick="deleteDrama('${drama.id}')">
-                    <i class="fas fa-trash"></i> Delete
+            </td>
+            <td>
+                <button 
+                        class="delete-btn" 
+                        onclick="deleteKdrama('${kdrama.title}')">
+                    Delete
                 </button>
-            </div>
+            </td>
         `;
-        dramaList.appendChild(dramaCard);
+        kdramasList.appendChild(row);
     });
 }
 
-// Reset filters
+function editRow(button) {
+    const row = button.closest("tr");
+    const cells = row.querySelectorAll("td");
+
+    const originalData = [];
+
+    // Save original data and replace cells with input fields
+    for (let i = 0; i < 8; i++) {
+        const cellText = cells[i].innerText || "";
+        originalData.push(cellText);
+
+        // Create different input types based on the cell
+        if (i === 2 || i === 3) {
+            // Year and episodes - number input
+            cells[i].innerHTML = `<input type="number" value="${cellText}" />`;
+        } else if (i === 4) {
+            // Genre - dropdown
+            cells[i].innerHTML = createGenreDropdown(cellText);
+        } else if (i === 5) {
+            // Network - dropdown
+            cells[i].innerHTML = createNetworkDropdown(cellText);
+        } else if (i === 6) {
+            // Rating - number input
+            cells[
+                i
+            ].innerHTML = `<input type="number" min="0" max="10" step="0.1" value="${cellText}" />`;
+        } else if (i === 7) {
+            // Status - dropdown
+            cells[i].innerHTML = createStatusDropdown(cellText);
+        } else {
+            // Text inputs for other fields
+            cells[i].innerHTML = `<input type="text" value="${cellText}" />`;
+        }
+    }
+
+    button.className = "hide";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "edit-btn";
+    saveBtn.textContent = "Save";
+    saveBtn.onclick = () => saveRow(row, originalData);
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.className = "delete-btn";
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.onclick = () => cancelEdit(row, originalData);
+
+    button.parentNode.appendChild(saveBtn);
+    button.parentNode.appendChild(cancelBtn);
+}
+
+function createGenreDropdown(selectedValue) {
+    const genres = [
+        "Romance",
+        "Comedy",
+        "Action",
+        "Thriller",
+        "Historical",
+        "Fantasy",
+        "Slice of Life",
+        "Melodrama",
+    ];
+    return createDropdown(genres, selectedValue);
+}
+
+function createNetworkDropdown(selectedValue) {
+    const networks = [
+        "Netflix",
+        "tvN",
+        "SBS",
+        "KBS",
+        "JTBC",
+        "MBC",
+        "Disney+",
+        "Other",
+    ];
+    return createDropdown(networks, selectedValue);
+}
+
+function createStatusDropdown(selectedValue) {
+    const statuses = ["Completed", "Watching", "Plan to Watch", "Dropped"];
+    return createDropdown(statuses, selectedValue);
+}
+
+function createDropdown(options, selectedValue) {
+    let html = "<select>";
+    options.forEach((option) => {
+        const selected = option === selectedValue ? "selected" : "";
+        html += `<option value="${option}" ${selected}>${option}</option>`;
+    });
+    html += "</select>";
+    return html;
+}
+
+function saveRow(row, originalData) {
+    const inputs = row.querySelectorAll("input, select");
+    const updatedData = Array.from(inputs).map((input) => input.value.trim());
+
+    if (updatedData.some((val) => val === "")) {
+        alert("Please fill out all fields!");
+        return;
+    }
+
+    const [
+        new_title,
+        main_lead,
+        release_year,
+        episodes,
+        genre,
+        network,
+        rating,
+        completed,
+    ] = updatedData;
+
+    console.log("Updating drama with data:", {
+        originalTitle: originalData[0],
+        newData: updatedData,
+    });
+
+    fetch(apiUrl + "?action=update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body:
+            `original_title=${encodeURIComponent(originalData[0])}` +
+            `&title=${encodeURIComponent(new_title)}` +
+            `&main_lead=${encodeURIComponent(main_lead)}` +
+            `&release_year=${encodeURIComponent(release_year)}` +
+            `&episodes=${encodeURIComponent(episodes)}` +
+            `&genre=${encodeURIComponent(genre)}` +
+            `&network=${encodeURIComponent(network)}` +
+            `&rating=${encodeURIComponent(rating)}` +
+            `&completed=${encodeURIComponent(completed)}`,
+    })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then((text) => {
+                    throw new Error(
+                        `Server responded with ${response.status}: ${text}`
+                    );
+                });
+            }
+            return response.text();
+        })
+        .then((responseText) => {
+            alert(responseText);
+            fetchKdramas();
+        })
+        .catch((error) => {
+            console.error("Update Error:", error);
+            alert("Error updating K-drama: " + error.message);
+        });
+}
+
+function cancelEdit(row, originalData) {
+    const cells = row.querySelectorAll("td");
+    for (let i = 0; i < 8; i++) {
+        cells[i].innerText = originalData[i];
+    }
+    fetchKdramas();
+}
+
+function deleteKdrama(title) {
+    if (confirm(`Are you sure you want to delete "${title}"?`)) {
+        fetch(apiUrl + "?action=delete", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `title=${encodeURIComponent(title)}`,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.text().then((text) => {
+                        throw new Error(
+                            `Server responded with ${response.status}: ${text}`
+                        );
+                    });
+                }
+                return response.text();
+            })
+            .then((responseText) => {
+                alert(responseText);
+                fetchKdramas();
+            })
+            .catch((error) => {
+                console.error("Delete Error:", error);
+                alert("Error deleting K-drama: " + error.message);
+            });
+    }
+}
+
+function applyFilters() {
+    const genreFilter = document.getElementById("filter_genre").value;
+    const networkFilter = document.getElementById("filter_network").value;
+    const statusFilter = document.getElementById("filter_status").value;
+
+    fetch(apiUrl + "?action=read")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((kdramas) => {
+            // Apply filters
+            const filteredKdramas = kdramas.filter((kdrama) => {
+                return (
+                    (genreFilter === "" || kdrama.genre === genreFilter) &&
+                    (networkFilter === "" ||
+                        kdrama.network === networkFilter) &&
+                    (statusFilter === "" || kdrama.completed === statusFilter)
+                );
+            });
+
+            displayKdramas(filteredKdramas);
+        })
+        .catch((error) => {
+            console.error("Filter Error:", error);
+        });
+}
+
 function resetFilters() {
     document.getElementById("filter_genre").value = "";
-    document.getElementById("filter_rating").value = "";
-    fetchDramas();
+    document.getElementById("filter_network").value = "";
+    document.getElementById("filter_status").value = "";
+    fetchKdramas();
 }
 
-// Add new drama
-async function addDrama() {
-    const newDrama = {
-        title: document.getElementById("title").value,
-        yearReleased: parseInt(document.getElementById("year").value),
-        episodeCount: parseInt(document.getElementById("episodes").value),
-        mainCast: document
-            .getElementById("cast")
-            .value.split(",")
-            .map((s) => s.trim()),
-        genre: document.getElementById("genre").value,
-        rating: parseFloat(document.getElementById("rating").value),
-        isCompleted: document.getElementById("status").value === "1",
-    };
-
-    // Show add operation is in progress
-    const submitBtn = document.querySelector(
-        '#drama_form button[type="submit"]'
-    );
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
-    submitBtn.disabled = true;
-
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newDrama),
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || "Failed to add drama");
-        }
-
-        document.getElementById("drama_form").reset();
-        showSuccess("Drama added successfully!");
-        fetchDramas();
-    } catch (error) {
-        console.error("Error adding drama:", error);
-        showError("Error adding drama: " + error.message);
-    } finally {
-        // Restore button state
-        submitBtn.innerHTML = originalBtnText;
-        submitBtn.disabled = false;
-    }
-}
-
-// Delete drama
-async function deleteDrama(id) {
-    if (!confirm("Are you sure you want to delete this drama?")) return;
-
-    // Find the delete button that was clicked and show deletion in progress
-    const deleteBtn = document.querySelector(
-        `button.delete[onclick="deleteDrama('${id}')"]`
-    );
-    const originalBtnText = deleteBtn.innerHTML;
-    deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
-    deleteBtn.disabled = true;
-
-    try {
-        const response = await fetch(
-            `${API_URL}?id=${encodeURIComponent(id)}`,
-            {
-                method: "DELETE",
-            }
-        );
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || "Failed to delete drama");
-        }
-
-        showSuccess("Drama deleted successfully!");
-        fetchDramas();
-    } catch (error) {
-        console.error("Error deleting drama:", error);
-        showError("Error deleting drama: " + error.message);
-
-        // Restore button state since the item wasn't deleted
-        deleteBtn.innerHTML = originalBtnText;
-        deleteBtn.disabled = false;
-    }
-}
-
-// Create a modal for editing dramas
-function createEditModal(drama) {
-    // Check if modal already exists and remove it
-    const existingModal = document.getElementById("edit_modal");
-    if (existingModal) {
-        existingModal.remove();
-    }
-
-    // Create modal container
-    const modal = document.createElement("div");
-    modal.id = "edit_modal";
-    modal.className = "modal";
-
-    // Parse cast if needed
-    const castMembers = safeJsonParse(drama.main_cast);
-    const castString = Array.isArray(castMembers)
-        ? castMembers.join(", ")
-        : drama.main_cast;
-
-    // Create modal content
-    modal.innerHTML = `
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Drama</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="edit_drama_form">
-                    <div class="form-group">
-                        <label for="edit_title">Title:</label>
-                        <input type="text" 
-                            id="edit_title" 
-                            value="${drama.title}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_year">Year Released:</label>
-                        <input type="number" 
-                            id="edit_year" 
-                            min="2000" 
-                            max="2025" 
-                            value="${drama.year_released}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_episodes">Episode Count:</label>
-                        <input type="number" 
-                            id="edit_episodes" 
-                            min="1" 
-                            value="${drama.episode_count}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_cast">
-                            Main Cast (comma separated):
-                        </label>
-                        <input type="text" 
-                            id="edit_cast" 
-                            value="${castString}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_genre">Genre:</label>
-                        <select id="edit_genre" required>
-                            <option value="Romance" ${
-                                drama.genre === "Romance" ? "selected" : ""
-                                }>Romance
-                            </option>
-                            <option value="Thriller" ${
-                                drama.genre === "Thriller" ? "selected" : ""
-                                }>Thriller
-                            </option>
-                            <option value="Historical" ${
-                                drama.genre === "Historical" ? "selected" : ""
-                                }>Historical
-                            </option>
-                            <option value="Comedy" ${
-                                drama.genre === "Comedy" ? "selected" : ""
-                                }>Comedy
-                            </option>
-                            <option value="Fantasy" ${
-                                drama.genre === "Fantasy" ? "selected" : ""
-                                }>Fantasy
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_rating">Rating (1-10):</label>
-                        <input type="number" 
-                            id="edit_rating" 
-                            min="1" max="10" 
-                            step="0.1" 
-                            value="${drama.rating}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_status">Series Status:</label>
-                        <select id="edit_status" required>
-                            <option value="1" ${
-                                drama.is_completed === "complete"
-                                    ? "selected"
-                                    : ""
-                            }>Completed</option>
-                            <option value="0" ${
-                                drama.is_completed === "on going"
-                                    ? "selected"
-                                    : ""
-                            }>Ongoing</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="save_changes" class="save">
-                    <i class="fas fa-save"></i> Save Changes
-                </button>
-                <button id="cancel_edit" class="cancel">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-            </div>
-        </div>
-    `;
-
-    // Add modal to body
-    document.body.appendChild(modal);
-
-    // Add event listeners
-    document.querySelector(".close-modal").addEventListener("click", () => {
-        modal.remove();
-    });
-
-    document.getElementById("cancel_edit").addEventListener("click", () => {
-        modal.remove();
-    });
-
-    document
-        .getElementById("save_changes")
-        .addEventListener("click", async () => {
-            // Change button state to show saving
-            const saveBtn = document.getElementById("save_changes");
-            const originalSaveBtnText = saveBtn.innerHTML;
-            saveBtn.innerHTML =
-                '<i class="fas fa-spinner fa-spin"></i> Saving...';
-            saveBtn.disabled = true;
-
-            try {
-                await saveChanges(drama.id);
-                modal.remove();
-            } catch (error) {
-                // Restore button on error
-                saveBtn.innerHTML = originalSaveBtnText;
-                saveBtn.disabled = false;
-            }
-        });
-
-    // Show modal
-    modal.style.display = "block";
-}
-
-// Save edited drama changes
-async function saveChanges(id) {
-    const updatedDrama = {
-        title: document.getElementById("edit_title").value,
-        yearReleased: parseInt(document.getElementById("edit_year").value),
-        episodeCount: parseInt(document.getElementById("edit_episodes").value),
-        mainCast: document
-            .getElementById("edit_cast")
-            .value.split(",")
-            .map((s) => s.trim()),
-        genre: document.getElementById("edit_genre").value,
-        rating: parseFloat(document.getElementById("edit_rating").value),
-        isCompleted: document.getElementById("edit_status").value === "1",
-    };
-
-    try {
-        const response = await fetch(
-            `${API_URL}?id=${encodeURIComponent(id)}`,
-            {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedDrama),
-            }
-        );
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || "Failed to update drama");
-        }
-
-        showSuccess(`Updated "${updatedDrama.title}" successfully!`);
-        fetchDramas();
-    } catch (error) {
-        console.error("Error updating drama:", error);
-        showError("Error updating drama: " + error.message);
-        throw error; // Rethrow to allow the caller to handle it
-    }
-}
-
-// Edit drama - now opens a modal with all fields
-function editDrama(id) {
-    const drama = allDramas.find((d) => d.id === id);
-    if (!drama) {
-        showError("Drama not found");
-        return;
-    }
-
-    createEditModal(drama);
-}
+window.onload = fetchKdramas();
