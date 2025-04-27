@@ -2,146 +2,179 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>K-Drama Catalog</title>
+        <meta name="viewport" 
+            content="width=device-width, 
+            initial-scale=1.0" />
+        <title>K-Drama Collection</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <header>
-            <h1>K-Drama Series Catalog</h1>
-            <p>Discover, track, and manage your favorite Korean dramas</p>
-        </header>
-
         <div class="container">
-            <div class="sidebar">
-                <h2>Filter Dramas</h2>
-                <div class="form-group">
-                    <label for="filter_genre">Genre:</label>
-                    <select id="filter_genre">
-                        <option value="">All Genres</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Thriller">Thriller</option>
-                        <option value="Historical">Historical</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Fantasy">Fantasy</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filter-rating">Minimum Rating:</label>
-                    <input
-                        type="number"
-                        id="filter_rating"
-                        min="1"
-                        max="10"
-                        step="0.1"
-                        placeholder="1" />
-                </div>
-                <button onclick="fetchDramas()">
-                    <i class="fas fa-filter"></i> Apply Filters
-                </button>
+            <h1>K-Drama Collection</h1>
 
-                <div class="add-drama-section">
-                    <h2>Add New Drama</h2>
-                    <form
-                        id="drama_form"
-                        onsubmit="event.preventDefault(); addDrama()">
-                        <div class="form-group">
-                            <label for="title">Title:</label>
-                            <input type="text" id="title" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="year">Year Released:</label>
-                            <input
-                                type="number"
-                                id="year"
-                                min="2000"
-                                max="2025"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="episodes">Episode Count:</label>
-                            <input
-                                type="number"
-                                id="episodes"
-                                min="1"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="cast"
-                                >Main Cast (comma separated):</label
-                            >
-                            <input
-                                type="text"
-                                id="cast"
-                                placeholder="e.g., Ji Sung, Hwang Jung-eum"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="genre">Genre:</label>
-                            <select id="genre" required>
-                                <option value="Romance">Romance</option>
-                                <option value="Thriller">Thriller</option>
-                                <option value="Historical">Historical</option>
-                                <option value="Comedy">Comedy</option>
-                                <option value="Fantasy">Fantasy</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="rating">Rating (1-10):</label>
-                            <input
-                                type="number"
-                                id="rating"
-                                min="1"
-                                max="10"
-                                step="0.1"
-                                required />
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Series Status:</label>
-                            <select id="status" required>
-                                <option value="1">Completed</option>
-                                <option value="0">Ongoing</option>
-                            </select>
-                        </div>
-                        <button type="submit">
-                            <i class="fas fa-plus-circle"></i> Add Drama
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <div class="form-container">
+                <h2>Add New K-Drama</h2>
+                <form id="kdrama_form">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required />
+                    </div>
 
-            <div class="main-content">
-                <div id="error_message" class="message"></div>
+                    <div class="form-group">
+                        <label for="main_lead">Main Lead:</label>
+                        <input
+                            type="text"
+                            id="main_lead"
+                            name="main_lead"
+                            required />
+                    </div>
 
-                <div class="sort-controls">
-                    <div class="sort-by">
-                        <label for="sort_field">Sort by:</label>
-                        <select id="sort_field" onchange="sortDramas()">
-                            <option value="title">Title</option>
-                            <option value="year_released">Year</option>
-                            <option value="rating" selected>Rating</option>
-                            <option value="episode_count">Episodes</option>
-                            <option value="genre">Genre</option>
+                    <div class="form-group">
+                        <label for="release_year">Release Year:</label>
+                        <input
+                            type="number"
+                            id="release_year"
+                            name="release_year"
+                            min="1990"
+                            max="2030"
+                            required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="episodes">Episodes:</label>
+                        <input
+                            type="number"
+                            id="episodes"
+                            name="episodes"
+                            min="1"
+                            max="100"
+                            required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genre">Genre:</label>
+                        <select id="genre" name="genre" required>
+                            <option value="">Select a genre</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Action">Action</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Historical">Historical</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Slice of Life">
+                                Slice of Life
+                            </option>
+                            <option value="Melodrama">Melodrama</option>
                         </select>
                     </div>
-                    <div class="sort-direction">
-                        <button id="sort_asc" onclick="setSortDirection('asc')">
-                            <i class="fas fa-sort-amount-up-alt"></i> Ascending
-                        </button>
-                        <button
-                            id="sort_desc"
-                            class="active"
-                            onclick="setSortDirection('desc')">
-                            <i class="fas fa-sort-amount-down"></i> Descending
-                        </button>
-                    </div>
-                </div>
 
-                <div id="loading" class="loading">
-                    <div class="loading-spinner"></div>
-                </div>
-                <div id="drama_list" class="drama-list"></div>
+                    <div class="form-group">
+                        <label for="network">Network:</label>
+                        <select id="network" name="network" required>
+                            <option value="">Select a network</option>
+                            <option value="Netflix">Netflix</option>
+                            <option value="tvN">tvN</option>
+                            <option value="SBS">SBS</option>
+                            <option value="KBS">KBS</option>
+                            <option value="JTBC">JTBC</option>
+                            <option value="MBC">MBC</option>
+                            <option value="Disney+">Disney+</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rating">Rating (0-10):</label>
+                        <input
+                            type="number"
+                            id="rating"
+                            name="rating"
+                            min="0"
+                            max="10"
+                            step="0.1"
+                            required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="completed">Status:</label>
+                        <select id="completed" name="completed" required>
+                            <option value="Completed">Completed</option>
+                            <option value="Watching">Watching</option>
+                            <option value="Plan to Watch">
+                                Plan to Watch
+                            </option>
+                            <option value="Dropped">Dropped</option>
+                        </select>
+                    </div>
+
+                    <button type="button" onclick="submitKdrama()">
+                        Add K-Drama
+                    </button>
+                </form>
             </div>
+
+            <div class="filter-container">
+                <h3>Filter K-Dramas</h3>
+                <div class="filter-group">
+                    <label for="filter_genre">Genre:</label>
+                    <select id="filter_genre" onchange="applyFilters()">
+                        <option value="">All Genres</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Action">Action</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Historical">Historical</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Slice of Life">Slice of Life</option>
+                        <option value="Melodrama">Melodrama</option>
+                    </select>
+
+                    <label for="filter_network">Network:</label>
+                    <select id="filter_network" onchange="applyFilters()">
+                        <option value="">All Networks</option>
+                        <option value="Netflix">Netflix</option>
+                        <option value="tvN">tvN</option>
+                        <option value="SBS">SBS</option>
+                        <option value="KBS">KBS</option>
+                        <option value="JTBC">JTBC</option>
+                        <option value="MBC">MBC</option>
+                        <option value="Disney+">Disney+</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="filter_status">Status:</label>
+                    <select id="filter_status" onchange="applyFilters()">
+                        <option value="">All Statuses</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Watching">Watching</option>
+                        <option value="Plan to Watch">Plan to Watch</option>
+                        <option value="Dropped">Dropped</option>
+                    </select>
+
+                    <button onclick="resetFilters()">Reset Filters</button>
+                </div>
+            </div>
+
+            <h2>K-Drama Collection</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Main Lead</th>
+                        <th>Year</th>
+                        <th>Episodes</th>
+                        <th>Genre</th>
+                        <th>Network</th>
+                        <th>Rating</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="kdramas_list">
+                    <!-- K-Drama data will be loaded here -->
+                </tbody>
+            </table>
         </div>
         <script src="script.js"></script>
     </body>
