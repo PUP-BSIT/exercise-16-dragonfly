@@ -1,5 +1,5 @@
-const apiUrl =
-    "https://darkgray-goshawk-731405.hostingersite.com/crud-api/kdramas_api.php";
+const apiUrl ="https://darkgray-goshawk-731405.hostingersite.com" +
+                "/crud-api/kdramas_api.php";
 
 function submitKdrama() {
     const form = document.getElementById("kdrama_form");
@@ -79,7 +79,8 @@ function fetchKdramas() {
         .catch((error) => {
             console.error("Error fetching K-dramas:", error);
             document.getElementById("kdramas_list").innerHTML =
-                "<tr><td colspan='10'>Error loading K-dramas. Please try again later.</td></tr>";
+                "<tr><td colspan='10'>Error loading K-dramas." + 
+                "Please try again later.</td></tr>";
         });
 }
 
@@ -146,7 +147,10 @@ function editRow(button) {
             // Rating - number input
             cells[
                 i
-            ].innerHTML = `<input type="number" min="0" max="10" step="0.1" value="${cellText}" />`;
+            ].innerHTML = `<input type="number" 
+                                min="0" max="10" 
+                                step="0.1" 
+                                value="${cellText}" />`;
         } else if (i === 7) {
             // Status - dropdown
             cells[i].innerHTML = createStatusDropdown(cellText);
